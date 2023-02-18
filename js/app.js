@@ -77,6 +77,8 @@ function updateMessage() {
     }
 }
 function handleClick(evt) {
+    shakeBoard();
+    clearBoardClasses();
     if (!(evt.target instanceof HTMLElement))
         return;
     if (evt.target.textContent !== "")
@@ -142,5 +144,18 @@ function resetScoreBoard() {
         ties: 0
     };
     init();
+}
+function shakeBoard() {
+    if (tie === true || winner === true) {
+        boardEl.classList.add("animate__animated", "animate__headShake");
+    }
+}
+function resetShake() {
+    boardEl.classList.remove("animate__animated", "animate__headShake");
+}
+function clearBoardClasses() {
+    setTimeout(() => {
+        resetShake();
+    }, 250);
 }
 init();

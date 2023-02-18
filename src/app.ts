@@ -84,6 +84,8 @@ function updateMessage():void {
 }
 
 function handleClick(this: HTMLDivElement, evt: MouseEvent):void {
+  shakeBoard()
+  clearBoardClasses()
   if(!(evt.target instanceof HTMLElement)) return
   if (evt.target.textContent !== "") return
   if (winner === true || tie === true) return
@@ -149,6 +151,22 @@ function resetScoreBoard():void {
     ties: 0
   }
   init()
+}
+
+function shakeBoard():void {
+  if (tie === true || winner === true) {
+    boardEl.classList.add("animate__animated", "animate__headShake")
+  }
+}
+
+function resetShake():void {
+  boardEl.classList.remove("animate__animated", "animate__headShake")
+}
+
+function clearBoardClasses():void {
+  setTimeout(() => {
+    resetShake()
+  }, 250);
 }
 
 init()
