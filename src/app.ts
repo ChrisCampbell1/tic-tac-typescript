@@ -1,15 +1,25 @@
 /*-------------------------------- Constants --------------------------------*/
+const winningCombos = [
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [1,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [2,4,6],
+]
+
+
+/*-------------------------------- Variables --------------------------------*/
 let board: (number | null)[]
 let turn: number
 let winner: boolean
 let tie: boolean
 
-/*-------------------------------- Variables --------------------------------*/
+/*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll<HTMLDivElement>('.sqr')
 const messageEl = document.getElementById('message') as HTMLHeadingElement
-
-
-/*------------------------ Cached Element References ------------------------*/
 
 
 
@@ -19,57 +29,48 @@ const messageEl = document.getElementById('message') as HTMLHeadingElement
 
 /*-------------------------------- Functions --------------------------------*/
 
+function init():void {
+  board = [null, null, null, null, null, null, null, null, null]
+  turn = 1
+  winner = false
+  tie = false
+  render()
+}
 
-// Step 3 - Upon loading, the game state should be initialized, and a function 
-//          should be called to render this game state.
+function render():void {
+  updateBoard()
+  updateMessage()
+}
 
-  // 3a) Create a function called `init`.
+function updateBoard():void {
+  squareEls.forEach((square, idx) => {
+    if(board[idx] === null) {
+      square.textContent = ""
+    } else if (board[idx] === 1) {
+      square.textContent = "X"
+    } else if (board[idx] === -1) {
+      square.textContent = "O"
+    }
+  })
+}
 
-  // 3b) Call this `init` function when the app loads.
+function updateMessage():void {
+  if (winner === false && tie === false) {
+    if (turn === 1) messageEl.textContent = "It's X's Turn"
+    if (turn === -1) messageEl.textContent = "It's O's Turn"
+  } else if (winner === false && tie === true) {
+    messageEl.textContent = "Cat's game, MEOW!"
+  } else if (winner === true) {
+    if (turn === 1) messageEl.textContent = "X Wins!"
+    if (turn === -1) messageEl.textContent = "O Wins!"
+  }
+}
+
+function handleClick(evt: Event):void {
   
-  // 3c) Set the `board` variable to an array containing nine `null`s to 
-  //    represent empty squares.
+}
 
-  // 3d) Set the `turn` to `1` - which will represent player X.
-
-  // 3e) Set the `winner` to false.
-
-  // 3f) Set `tie` to false.
-
-  // 3g) Call a function called `render` at the end of the `init` function.
-
-
-// Step 4 - The state of the game should be rendered to the user
-
-  // 4a) Create a function called `render`, then set it aside for now.
-
-  // 4b) Create a function called `updateBoard`.
-
-  // 4c) In the `updateBoard` function, loop over `board` and for each element:
-  //     - Use the current index of the iteration to access the corresponding 
-  //       square in the `squareEls` node list (array-like structure).
-  //     - Style that square however you wish, dependent on the value  
-  //       contained in the current cell being iterated over (`-1`, `1`, or
-  //       `null`). To keep it simple, start with just putting a letter in 
-  //       each square depending on what the the value of each cell is.
-
-  // 4d) Create a function called `updateMessage`
-  
-  // 4e) In the `updateMessage` function, render a message based on the 
-  //     current game state:
-  //     - If both `winner` and `tie` have a value of false (meaning the game 
-  //       is still in progress), render whose turn it is.
-  //     - If `winner` is false, but `tie` is true, render a tie message.
-  //     - Otherwise, render a congratulatory message to the player that has 
-  //       won.
-
-  // 4f) Invoke both the `updateBoard` and the `updateMessage` functions
-  //     inside of your `render` function.
-
-// Step 5 - Define the required constants
-
-  // 5a) In a constant called `winningCombos` define the eight possible winning 
-  //     combinations as an array of arrays.
+init()
 
 
 // Step 6 - Handle a player clicking a square with a `handleClick` function
