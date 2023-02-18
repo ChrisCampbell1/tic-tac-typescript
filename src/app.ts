@@ -21,11 +21,13 @@ let tie: boolean
 const squareEls = document.querySelectorAll<HTMLDivElement>('.sqr')
 const messageEl = document.getElementById('message') as HTMLHeadingElement
 const boardEl = document.querySelector<HTMLDivElement>('.board')!
+const resetBtnEl = document.getElementById('reset') as HTMLButtonElement
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl.addEventListener('click', handleClick)
+resetBtnEl.addEventListener('click', init)
 
 // function squareElsListeners() {
 //   squareEls.forEach((square) => {
@@ -52,7 +54,7 @@ function render():void {
 
 function updateBoard():void {
   squareEls.forEach((square, idx) => {
-    if(board[idx] === null) {
+    if(board[idx] === 0) {
       square.textContent = ""
     } else if (board[idx] === 1) {
       square.textContent = "X"
@@ -82,6 +84,7 @@ function handleClick(this: HTMLDivElement, evt: MouseEvent):void {
   placePiece(sqIdx)
   checkForTie()
   checkForWinner()
+  switchPlayerTurn()
   render ()
 }
 
@@ -108,43 +111,9 @@ function checkForWinner():void {
   })
 }
 
+function switchPlayerTurn():void {
+  if (winner === true || tie === true) return
+  turn = turn * -1
+}
+
 init()
-
-
-// Step 6 - Handle a player clicking a square with a `handleClick` function
-
-
-// 6.3 - `checkForWinner`
-
-
-
-// 6.4 - `switchPlayerTurn`
-
-  // 6.4a) Create a function called `switchPlayerTurn`.
-
-  // 6.4b) If `winner` is true, return out of the function - we don’t need 
-  //       to switch the turn anymore!
-
-  // 6.4c) If `winner` is false, change the turn by multiplying `turn` by 
-  //       `-1` (this flips a `1` to `-1`, and vice-versa).
-
-
-// 6.5 - Tying it all together
-
-  // 6.5a) In our `handleClick` function, call `placePiece`, `checkForTie`, 
-  //       `checkForWinner`, and `switchPlayerTurn`. Don’t forget that 
-  //       `placePiece` needs `sqIdx` as an argument! 
-
-  // 6.5b) Finally, now that all the state has been updated we need to 
-  //       render that updated state to the user by calling the `render` 
-  //       function that we wrote earlier.
-
-// Step 7 - Create Reset functionality
-
-  // 7a) Add a reset button to the HTML document.
-
-  // 7b) Store the new reset button element as a cached element reference in
-  //     a constant named `resetBtnEl`.
-
-  // 7c) Attach an event listener to the `resetBtnEl`. On the `'click'` event 
-  //     it should call the `init` function you created in step 3.
