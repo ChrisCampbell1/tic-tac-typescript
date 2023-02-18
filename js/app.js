@@ -107,9 +107,8 @@ function checkForWinner() {
         combo.forEach((position) => {
             total += board[position];
             if (Math.abs(total) === 3) {
-                winner = true
-                confetti.start(1000)
-                return
+                winner = true;
+                return;
             }
         });
     });
