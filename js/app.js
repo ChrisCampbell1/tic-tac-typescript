@@ -21,8 +21,8 @@ const messageEl = document.getElementById('message');
 const boardEl = document.querySelector('.board');
 const resetBtnEl = document.getElementById('reset');
 /*----------------------------- Event Listeners -----------------------------*/
-boardEl.addEventListener('click', handleClick);
-resetBtnEl.addEventListener('click', init);
+boardEl?.addEventListener('click', handleClick);
+resetBtnEl?.addEventListener('click', init);
 // function squareElsListeners() {
 //   squareEls.forEach((square) => {
 //     square.addEventListener('click', handleClick)
@@ -72,13 +72,13 @@ function updateMessage() {
     }
 }
 function handleClick(evt) {
-    if (!evt.target || !('id' in evt.target))
+    if (!(evt.target instanceof HTMLElement))
         return;
     if (evt.target.textContent !== "")
         return;
     if (winner === true || tie === true)
         return;
-    let sqIdx = evt.target.id.slice(2);
+    let sqIdx = parseInt(evt.target.id.slice(2));
     placePiece(sqIdx);
     checkForTie();
     checkForWinner();

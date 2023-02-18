@@ -26,8 +26,8 @@ const resetBtnEl = document.getElementById('reset') as HTMLButtonElement
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-boardEl.addEventListener('click', handleClick)
-resetBtnEl.addEventListener('click', init)
+boardEl?.addEventListener('click', handleClick)
+resetBtnEl?.addEventListener('click', init)
 
 // function squareElsListeners() {
 //   squareEls.forEach((square) => {
@@ -77,10 +77,10 @@ function updateMessage():void {
 }
 
 function handleClick(this: HTMLDivElement, evt: MouseEvent):void {
-  if (!evt.target || !('id' in evt.target)) return
+  if(!(evt.target instanceof HTMLElement)) return
   if (evt.target.textContent !== "") return
   if (winner === true || tie === true) return
-  let sqIdx: number = evt.target.id.slice(2)
+  let sqIdx: number = parseInt(evt.target.id.slice(2))
   placePiece(sqIdx)
   checkForTie()
   checkForWinner()
