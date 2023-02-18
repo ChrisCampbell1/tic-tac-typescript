@@ -15,20 +15,24 @@ let board;
 let turn;
 let winner;
 let tie;
+let scoreBoard = {
+    xWins: 0,
+    oWins: 0,
+    ties: 0
+};
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll('.sqr');
 const messageEl = document.getElementById('message');
 const boardEl = document.querySelector('.board');
 const resetBtnEl = document.getElementById('reset');
+const xScore = document.getElementById("x");
+const oScore = document.getElementById("o");
+const tiesScore = document.getElementById("ties");
+const resetScoreBoardBtn = document.getElementById("resetscoreboard");
 /*----------------------------- Event Listeners -----------------------------*/
-boardEl?.addEventListener('click', handleClick);
-resetBtnEl?.addEventListener('click', init);
-// function squareElsListeners() {
-//   squareEls.forEach((square) => {
-//     square.addEventListener('click', handleClick)
-//   })
-// }
-// squareElsListeners()
+boardEl.addEventListener('click', handleClick);
+resetBtnEl.addEventListener('click', init);
+resetScoreBoardBtn.addEventListener('click', resetScoreBoard);
 /*-------------------------------- Functions --------------------------------*/
 function init() {
     board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -40,6 +44,7 @@ function init() {
 function render() {
     updateBoard();
     updateMessage();
+    renderScoreBoard();
 }
 function updateBoard() {
     squareEls.forEach((square, idx) => {
@@ -82,6 +87,7 @@ function handleClick(evt) {
     placePiece(sqIdx);
     checkForTie();
     checkForWinner();
+    updateScore();
     switchPlayerTurn();
     render();
 }
@@ -109,5 +115,32 @@ function switchPlayerTurn() {
     if (winner === true || tie === true)
         return;
     turn = turn * -1;
+}
+function updateScore() {
+    if (winner === false && tie === false)
+        return;
+    if (tie === true)
+        scoreBoard.ties++;
+    if (winner === true) {
+        if (turn === 1) {
+            scoreBoard.xWins++;
+        }
+        else if (turn === -1) {
+            scoreBoard.oWins++;
+        }
+    }
+}
+function renderScoreBoard() {
+    xScore.textContent = `X: ${scoreBoard.xWins}`;
+    oScore.textContent = `O: ${scoreBoard.oWins}`;
+    tiesScore.textContent = `Ties: ${scoreBoard.ties}`;
+}
+function resetScoreBoard() {
+    scoreBoard = {
+        xWins: 0,
+        oWins: 0,
+        ties: 0
+    };
+    init();
 }
 init();

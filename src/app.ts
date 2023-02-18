@@ -16,26 +16,32 @@ let board: number[]
 let turn: number
 let winner: boolean
 let tie: boolean
+let scoreBoard: {
+  xWins: number;
+  oWins: number;
+  ties: number;
+} = {
+  xWins: 0,
+  oWins: 0,
+  ties: 0
+}
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll<HTMLDivElement>('.sqr')
 const messageEl = document.getElementById('message') as HTMLHeadingElement
 const boardEl = document.querySelector<HTMLDivElement>('.board')!
 const resetBtnEl = document.getElementById('reset') as HTMLButtonElement
-
+const xScore = document.getElementById("x") as HTMLDivElement
+const oScore = document.getElementById("o") as HTMLDivElement
+const tiesScore = document.getElementById("ties") as HTMLDivElement
+const resetScoreBoardBtn = document.getElementById("resetscoreboard") as HTMLButtonElement
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-boardEl?.addEventListener('click', handleClick)
-resetBtnEl?.addEventListener('click', init)
+boardEl.addEventListener('click', handleClick)
+resetBtnEl.addEventListener('click', init)
+resetScoreBoardBtn.addEventListener('click', resetScoreBoard)
 
-// function squareElsListeners() {
-//   squareEls.forEach((square) => {
-//     square.addEventListener('click', handleClick)
-//   })
-// }
-
-// squareElsListeners()
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -50,6 +56,7 @@ function init():void {
 function render():void {
   updateBoard()
   updateMessage()
+  renderScoreBoard()
 }
 
 function updateBoard():void {
@@ -84,6 +91,7 @@ function handleClick(this: HTMLDivElement, evt: MouseEvent):void {
   placePiece(sqIdx)
   checkForTie()
   checkForWinner()
+  updateScore()
   switchPlayerTurn()
   render ()
 }
@@ -114,6 +122,33 @@ function checkForWinner():void {
 function switchPlayerTurn():void {
   if (winner === true || tie === true) return
   turn = turn * -1
+}
+
+function updateScore ():void {
+  if (winner === false && tie === false) return
+  if (tie === true) scoreBoard.ties ++
+  if (winner === true){
+    if (turn === 1){
+      scoreBoard.xWins ++
+    } else if (turn === -1){
+      scoreBoard.oWins ++
+    }
+  }
+}
+
+function renderScoreBoard():void {
+  xScore.textContent = `X: ${scoreBoard.xWins}`
+  oScore.textContent = `O: ${scoreBoard.oWins}`
+  tiesScore.textContent = `Ties: ${scoreBoard.ties}`
+}
+
+function resetScoreBoard():void {
+  scoreBoard = {
+    xWins: 0,
+    oWins: 0,
+    ties: 0
+  }
+  init()
 }
 
 init()
