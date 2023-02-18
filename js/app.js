@@ -5,14 +5,11 @@ let turn;
 let winner;
 let tie;
 /*-------------------------------- Variables --------------------------------*/
+const squareEls = document.querySelectorAll('.sqr');
+const messageEl = document.getElementById('message');
 /*------------------------ Cached Element References ------------------------*/
 /*----------------------------- Event Listeners -----------------------------*/
 /*-------------------------------- Functions --------------------------------*/
-// Step 2 - Store cached element references.
-// 2a) In a constant called `squareEls`, store the nine elements 
-//    representing the squares on the page.
-// 2b) In a constant called `messageEl`, store the element that displays the 
-//    game's status on the page.
 // Step 3 - Upon loading, the game state should be initialized, and a function 
 //          should be called to render this game state.
 // 3a) Create a function called `init`.
