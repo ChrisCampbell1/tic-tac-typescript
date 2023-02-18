@@ -115,6 +115,7 @@ function checkForWinner():void {
       total += board[position]
       if (Math.abs(total) === 3){
         winner = true
+        
         return
       }
     })
